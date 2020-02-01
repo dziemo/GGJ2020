@@ -10,7 +10,12 @@ public class PathComparator : MonoBehaviour
     LineRenderer lr;
 
     float dist = 0.0f;
+    float updateDist = 0.0f;
+
+    int samlpes = 0;
     bool visualize = false;
+    bool calculated = false;
+    
     private void Awake()
     {
         instance = this;
@@ -19,20 +24,25 @@ public class PathComparator : MonoBehaviour
 
     private void Update()
     {
-        if (visualize)
+        if (visualize && dist * 0.2f <= 1.0f)
         {
             dist += Time.deltaTime;
-            var pointA = A.path.GetPointAtTime(Mathf.Lerp(0.0f, 1.0f, dist * 0.1f));
+            var pointA = A.path.GetPointAtTime(Mathf.Lerp(0.0f, 1.0f, dist * 0.2f));
             var pointB = B.path.GetClosestPointOnPath(pointA);
             lr.SetPosition(0, pointA);
             lr.SetPosition(1, pointB);
-            //Debug.Log("DIST: " + Vector2.Distance(pointA, pointB));
+            updateDist += Mathf.Abs(Vector2.Distance(pointA, pointB));
+            samlpes++;
+        }
+        else if (dist * 0.2f > 1.0f && !calculated)
+        {
+            Debug.Log("UPDATE DIST: " + updateDist + " SAMPLES: " + samlpes + " AVG DIST: " + updateDist/samlpes);
+            calculated = true;
         }
     }
 
     public void ComparePaths (PathCreator pathA, PathCreator pathB, int stepsNum)
     {
-
         float distanceDiff = 0.0f;
         for (int i = 1; i <= stepsNum; i++)
         {

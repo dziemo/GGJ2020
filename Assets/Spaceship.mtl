@@ -1,0 +1,26 @@
+# Created by Kenney (www.kenney.nl)
+
+newmtl custom6
+Kd 0.6 0.6 0.6
+
+newmtl dark
+Kd 0 0 0
+
+newmtl shield
+Kd 0.18 0.196 0.259
+
+newmtl custom4
+Kd 0.537931 0.1369279 0.1369279
+
+newmtl metalLight
+Kd 0.2 0.2 0.2
+
+newmtl glass
+Kd 0.269 0.36 0.497
+
+newmtl _defaultMat
+Kd 0.1379311 0.1379311 0.1379311
+
+newmtl custom5
+Kd 0.3310345 0.3310345 0.3310345
+

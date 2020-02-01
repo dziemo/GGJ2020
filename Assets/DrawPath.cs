@@ -6,6 +6,7 @@ using UnityEngine;
 public class DrawPath : MonoBehaviour
 {
     public PathCreator originalPath;
+    public GameObject particlesParent;
     Camera cam;
     List<Vector2> vertexesList = new List<Vector2>();
     LineRenderer lr;
@@ -16,6 +17,7 @@ public class DrawPath : MonoBehaviour
     {
         cam = Camera.main;
         lr = GetComponent<LineRenderer>();
+        particlesParent.SetActive(false);
     }
 
     void Update()
@@ -24,27 +26,35 @@ public class DrawPath : MonoBehaviour
         if (drawing)
         {
             Draw(cam.ScreenToWorldPoint(Input.mousePosition));
+            Vector2 mousePos = cam.ScreenToWorldPoint(Input.mousePosition);
+            particlesParent.transform.position = mousePos;
             Debug.Log("Drawing!");
         }
 
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButtonUp(0))
         {
+            particlesParent.SetActive(false);
             drawing = false;
             RenderPath();
         }
 
         if (!drawing && Input.GetMouseButtonDown(0))
         {
-            vertexesList.Add(cam.ScreenToWorldPoint(Input.mousePosition));
+            Vector2 mousePos = cam.ScreenToWorldPoint(Input.mousePosition);
+            particlesParent.transform.position = mousePos;
+            particlesParent.SetActive(true);
+            vertexesList.Add(mousePos);
             drawing = true;
         }
     }
 
-    void Draw(Vector3 mousePos)
+    void Draw(Vector2 mousePos)
     {
         if (Vector2.Distance(mousePos, vertexesList[vertexesList.Count - 1]) > 0.2f)
         {
             vertexesList.Add(mousePos);
+            lr.positionCount++;
+            lr.SetPosition(lr.positionCount - 1, mousePos);
             Debug.Log("Added!");
         }
         else
@@ -53,17 +63,23 @@ public class DrawPath : MonoBehaviour
         }
     }
 
+    private void LateUpdate()
+    {
+        if (drawing)
+        {
+            Vector2 mousePos = cam.ScreenToWorldPoint(Input.mousePosition);
+            particlesParent.transform.position = mousePos;
+        }
+    }
+
     void RenderPath ()
     {
         if (vertexesList.Count > 1)
         {
             var pc = gameObject.AddComponent<PathCreator>();
-            var bp = new BezierPath(vertexesList, true, PathSpace.xy);
+            var bp = new BezierPath(vertexesList, false, PathSpace.xy);
             pc.bezierPath = bp;
-            PathComparator.instance.ComparePaths(originalPath, pc, 100);
-            var pointsToDraw = pc.path.localPoints;
-            lr.positionCount = pointsToDraw.Length;
-            lr.SetPositions(pointsToDraw);
+            PathComparator.instance.ComparePaths(originalPath, pc, 500);
         }
     }
 }

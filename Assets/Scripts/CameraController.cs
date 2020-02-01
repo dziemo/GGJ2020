@@ -6,7 +6,7 @@ public class CameraController : MonoBehaviour
 {
     public float mouseSensitivity = 100.0f;
     public float clampAngle = 80.0f;
-
+    public bool canMove = true;
     private float rotX = 0.0f; // rotation around the right/x axis
 
     void Start()
@@ -19,13 +19,16 @@ public class CameraController : MonoBehaviour
 
     void Update()
     {
-        float mouseY = -Input.GetAxis("Mouse Y");
-        
-        rotX += mouseY * mouseSensitivity * Time.deltaTime;
+        if (canMove)
+        {
+            float mouseY = -Input.GetAxis("Mouse Y");
 
-        rotX = Mathf.Clamp(rotX, -clampAngle, clampAngle);
+            rotX += mouseY * mouseSensitivity * Time.deltaTime;
 
-        Quaternion localRotation = Quaternion.Euler(rotX, transform.rotation.eulerAngles.y, 0.0f);
-        transform.rotation = localRotation;
+            rotX = Mathf.Clamp(rotX, -clampAngle, clampAngle);
+
+            Quaternion localRotation = Quaternion.Euler(rotX, transform.rotation.eulerAngles.y, 0.0f);
+            transform.rotation = localRotation;
+        }
     }
 }

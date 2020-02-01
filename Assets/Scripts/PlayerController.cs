@@ -12,9 +12,11 @@ public class PlayerController : MonoBehaviour
     CharacterController controller;
     Vector3 dir = new Vector3();
     Camera cam;
+    Rigidbody rb;
 
     private void Awake()
     {
+        rb = GetComponent<Rigidbody>();
         cam = Camera.main;
         controller = GetComponent<CharacterController>();
     }
@@ -55,6 +57,7 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        controller.Move(((controller.transform.forward * dir.z) + (controller.transform.right * dir.x)) * speed * Time.fixedDeltaTime);
+        rb.MovePosition(rb.position + (((rb.transform.forward * dir.z) + (rb.transform.right * dir.x)) * speed * Time.fixedDeltaTime));
+       //controller.Move(((controller.transform.forward * dir.z) + (controller.transform.right * dir.x)) * speed * Time.fixedDeltaTime);
     }
 }

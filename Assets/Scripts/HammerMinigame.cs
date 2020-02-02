@@ -10,8 +10,9 @@ public class HammerMinigame : MonoBehaviour
     public float pos = 0.0f, speed = 2.0f;
     public int[] targetSizes = new int[5];
 
-    int hitCount = 0;
+    int hitCount = 0, onSpot = 0;
     bool inProgress = true;
+    JobController jCtrl;
 
     private void Awake()
     {
@@ -26,8 +27,9 @@ public class HammerMinigame : MonoBehaviour
         }
     }
     
-    public void StartMinigame ()
+    public void StartMinigame (JobController jc)
     {
+        jCtrl = jc;
         uiParent.SetActive(true);
         for (int i = 0; i < targetSizes.Length; i++)
         {
@@ -35,6 +37,7 @@ public class HammerMinigame : MonoBehaviour
         }
         inProgress = true;
         hitCount = 0;
+        onSpot = 0;
         speed = 1.0f;
         MoveTarget();
     }
@@ -50,7 +53,7 @@ public class HammerMinigame : MonoBehaviour
     {
         if (aimer.localPosition.y < target.localPosition.y + target.sizeDelta.y / 2 && aimer.localPosition.y > target.localPosition.y - target.sizeDelta.y / 2)
         {
-            Debug.Log("TRAFIONY");
+            onSpot++;
         }
         else
         {
@@ -63,6 +66,7 @@ public class HammerMinigame : MonoBehaviour
         }
         else
         {
+            jCtrl.RegisterScore((float)onSpot / (float)hitCount);
             inProgress = false;
             uiParent.SetActive(false);
             MinigamesController.instance.TurnOffMinigames();

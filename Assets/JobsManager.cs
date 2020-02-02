@@ -5,7 +5,8 @@ using UnityEngine;
 public class JobsManager : MonoBehaviour
 {
     public static JobsManager instance;
-    public bool currentlyAtJob;
+
+    public List<JobController> tasks = new List<JobController>();
 
     private void Awake()
     {
@@ -15,5 +16,16 @@ public class JobsManager : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void TaskEnded ()
+    {
+        foreach(var task in tasks)
+        {
+            if (!task.isFullfiled)
+                return;
+        }
+
+        Debug.Log("END GAME!!!!!!!!!!!!!!!!!");
     }
 }

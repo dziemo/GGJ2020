@@ -16,7 +16,7 @@ public class MinigamesController : MonoBehaviour
         TurnOffMinigames();
     }
 
-    public void StartMinigame (MiniGame minigame)
+    public void StartMinigame (MiniGame minigame, JobController controller)
     {
         BlockPlayer();
         minigameTint.SetActive(true);
@@ -27,7 +27,7 @@ public class MinigamesController : MonoBehaviour
                 break;
             case MiniGame.Hammer:
                 hammerMinigame.SetActive(true);
-                hammerMinigame.GetComponent<HammerMinigame>().StartMinigame();
+                hammerMinigame.GetComponent<HammerMinigame>().StartMinigame(controller);
                 break;
             default:
                 break;
@@ -44,6 +44,7 @@ public class MinigamesController : MonoBehaviour
 
     private void BlockPlayer ()
     {
+        playerMov.gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
         playerMov.canMove = false;
         camMov.canMove = false;
         Cursor.lockState = CursorLockMode.None;

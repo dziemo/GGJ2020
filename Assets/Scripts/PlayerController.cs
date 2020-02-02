@@ -49,7 +49,8 @@ public class PlayerController : MonoBehaviour
                 var go = hit.collider.gameObject;
                 if (Input.GetMouseButtonDown(0) && go.CompareTag("Interactable"))
                 {
-                    MinigamesController.instance.StartMinigame(go.GetComponent<Interactable>().miniGameType);
+
+                    MinigamesController.instance.StartMinigame(go.GetComponent<Interactable>().miniGameType, go.GetComponent<JobController>());
                 }
             }
         }

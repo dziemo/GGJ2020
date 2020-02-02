@@ -20,6 +20,17 @@ public class JobController : MonoBehaviour
         JobsManager.instance.TaskEnded();
         GetComponent<Interactable>().enabled = false;
         GetComponent<Outline>().OutlineWidth = 0.0f;
+        GetComponent<Outline>().enabled = false;
+        foreach (Renderer renderer in transform.GetComponentsInChildren<Renderer>())
+        {
+            foreach (Material m in renderer.materials)
+            {
+                if (m.name.Contains("OutlineFill"))
+                {
+                    m.SetColor("_OutlineColor", Color.black);
+                }
+            }
+        }
         gameObject.tag = "Untagged";
     }
 }

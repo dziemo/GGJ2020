@@ -19,11 +19,13 @@ public class MinigamesController : MonoBehaviour
     public void StartMinigame (MiniGame minigame, JobController controller)
     {
         BlockPlayer();
-        minigameTint.SetActive(true);
+        //minigameTint.SetActive(true);
         switch (minigame)
         {
             case MiniGame.Weld:
-                weldMinigame.SetActive(true);
+                //PUT HELMET ON
+                HelmetController.helmetController.HelmetOn(controller);
+                //HELMET CONTROLLER
                 break;
             case MiniGame.Hammer:
                 hammerMinigame.SetActive(true);
@@ -51,7 +53,7 @@ public class MinigamesController : MonoBehaviour
         Cursor.visible = true;
     }
 
-    private void ReleasePlayer ()
+    public void ReleasePlayer ()
     {
         playerMov.canMove = true;
         camMov.canMove = true;

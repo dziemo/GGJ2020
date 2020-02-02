@@ -1,11 +1,14 @@
 ﻿using PathCreation;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PathComparator : MonoBehaviour
 {
     public static PathComparator instance;
+    public TextMeshProUGUI scoreText;
     public PathCreator A, B;
     LineRenderer lr;
 
@@ -15,7 +18,13 @@ public class PathComparator : MonoBehaviour
     int samlpes = 0;
     bool visualize = false;
     bool calculated = false;
-    
+
+    //calc score
+    float tolerance = 0.15f;
+    int goodNodes = 0;
+    int score = 0;
+    public Color goodNode, badNode;
+
     private void Awake()
     {
         instance = this;
@@ -31,13 +40,32 @@ public class PathComparator : MonoBehaviour
             var pointB = B.path.GetClosestPointOnPath(pointA);
             lr.SetPosition(0, pointA);
             lr.SetPosition(1, pointB);
-            updateDist += Mathf.Abs(Vector2.Distance(pointA, pointB));
+            var distDiff = Mathf.Abs(Vector2.Distance(pointA, pointB));
+            if (distDiff <= tolerance)
+            {
+                lr.startColor = goodNode;
+                lr.endColor = badNode;
+                goodNodes++;
+            } else
+            {
+                lr.startColor = badNode;
+                lr.endColor = badNode;
+            }
+            updateDist += distDiff;
             samlpes++;
         }
         else if (dist * 0.2f > 1.0f && !calculated)
         {
             Debug.Log("UPDATE DIST: " + updateDist + " SAMPLES: " + samlpes + " AVG DIST: " + updateDist/samlpes);
+            Debug.Log("SCORE: " + (int)((goodNodes / (float)samlpes) * 100.0f));
+            scoreText.text = (int)((goodNodes / (float)samlpes) * 100.0f) + "%";
             calculated = true;
+            HelmetController.helmetController.ctrl.RegisterScore(goodNodes / (float)samlpes);
+        }
+
+        if (calculated && Input.anyKey)
+        {
+            SceneManager.UnloadSceneAsync(1);
         }
     }
 

@@ -15,7 +15,11 @@ public class WeldingMiniGame : MonoBehaviour
         lr = GetComponent<LineRenderer>();
     }
 
-    [ContextMenu("Make path")]
+    public void Start()
+    {
+        SpawnPath();
+    }
+
     public void SpawnPath ()
     {
         var path = Instantiate(pathPrefab, transform.position, transform.rotation);

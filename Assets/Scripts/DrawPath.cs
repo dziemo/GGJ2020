@@ -7,15 +7,14 @@ public class DrawPath : MonoBehaviour
 {
     public PathCreator originalPath;
     public GameObject particlesParent;
-    Camera cam;
+    public Camera cam;
     List<Vector2> vertexesList = new List<Vector2>();
     LineRenderer lr;
 
     bool drawing = false;
-
+    bool canDraw = true;
     private void Awake()
     {
-        cam = Camera.main;
         lr = GetComponent<LineRenderer>();
         particlesParent.SetActive(false);
     }
@@ -28,17 +27,18 @@ public class DrawPath : MonoBehaviour
             Draw(cam.ScreenToWorldPoint(Input.mousePosition));
             Vector2 mousePos = cam.ScreenToWorldPoint(Input.mousePosition);
             particlesParent.transform.position = mousePos;
-            Debug.Log("Drawing!");
+            Debug.Log("Mouse pos: " + mousePos.ToString());
         }
 
         if (Input.GetMouseButtonUp(0))
         {
+            canDraw = false;
             particlesParent.SetActive(false);
             drawing = false;
             RenderPath();
         }
 
-        if (!drawing && Input.GetMouseButtonDown(0))
+        if (!drawing && Input.GetMouseButtonDown(0) && canDraw)
         {
             Vector2 mousePos = cam.ScreenToWorldPoint(Input.mousePosition);
             particlesParent.transform.position = mousePos;

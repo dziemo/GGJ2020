@@ -15,12 +15,11 @@ public class JobController : MonoBehaviour
     {
         Debug.Log(score.ToString());
         isFullfiled = true;
-        scoreText.text = (score * 100).ToString();
+        scoreText.text = ((int)(score * 100)).ToString();
         scoreImage.fillAmount = score;
         JobsManager.instance.TaskEnded();
         GetComponent<Interactable>().enabled = false;
-        GetComponent<Outline>().OutlineWidth = 0.0f;
-        GetComponent<Outline>().enabled = false;
+
         foreach (Renderer renderer in transform.GetComponentsInChildren<Renderer>())
         {
             foreach (Material m in renderer.materials)

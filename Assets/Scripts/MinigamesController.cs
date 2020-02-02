@@ -47,6 +47,8 @@ public class MinigamesController : MonoBehaviour
     private void BlockPlayer ()
     {
         playerMov.gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        playerMov.gameObject.GetComponent<Rigidbody>().Sleep();
+        playerMov.gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePosition;
         playerMov.canMove = false;
         camMov.canMove = false;
         Cursor.lockState = CursorLockMode.None;
@@ -55,6 +57,8 @@ public class MinigamesController : MonoBehaviour
 
     public void ReleasePlayer ()
     {
+        playerMov.gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+        playerMov.gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
         playerMov.canMove = true;
         camMov.canMove = true;
         Cursor.lockState = CursorLockMode.Locked;

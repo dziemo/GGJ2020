@@ -20,7 +20,7 @@ public class PathComparator : MonoBehaviour
     bool calculated = false;
 
     //calc score
-    float tolerance = 0.15f;
+    float tolerance = 0.075f;
     int goodNodes = 0;
     int score = 0;
     public Color goodNode, badNode;
@@ -71,15 +71,15 @@ public class PathComparator : MonoBehaviour
 
     public void ComparePaths (PathCreator pathA, PathCreator pathB, int stepsNum)
     {
-        float distanceDiff = 0.0f;
-        for (int i = 1; i <= stepsNum; i++)
-        {
-            var pointA = pathA.path.GetPointAtTime(i / stepsNum);
-            var pointB = pathB.path.GetClosestPointOnPath(pointA);
-            distanceDiff += Mathf.Abs(Vector2.Distance(pointA, pointB));
-        }
+        //float distanceDiff = 0.0f;
+        //for (int i = 1; i <= stepsNum; i++)
+        //{
+        //    var pointA = pathA.path.GetPointAtTime(i / stepsNum);
+        //    var pointB = pathB.path.GetClosestPointOnPath(pointA);
+        //    distanceDiff += Mathf.Abs(Vector2.Distance(pointA, pointB));
+        //}
 
-        Debug.Log("DISTANCE DIFF: " + distanceDiff + " AVG DIST: " + distanceDiff / stepsNum);
+        //Debug.Log("DISTANCE DIFF: " + distanceDiff + " AVG DIST: " + distanceDiff / stepsNum);
         A = pathA;
         B = pathB;
         lr.positionCount = 2;

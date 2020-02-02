@@ -13,7 +13,7 @@ public class HammerMinigame : MonoBehaviour
     int hitCount = 0, onSpot = 0;
     bool inProgress = true;
     JobController jCtrl;
-
+    public AudioSource aud;
     private void Awake()
     {
         uiParent.SetActive(false);
@@ -51,6 +51,7 @@ public class HammerMinigame : MonoBehaviour
 
     private void Hit()
     {
+        aud.Play();
         if (aimer.localPosition.y < target.localPosition.y + target.sizeDelta.y / 2 && aimer.localPosition.y > target.localPosition.y - target.sizeDelta.y / 2)
         {
             onSpot++;

@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class WeldingMiniGame : MonoBehaviour
 {
-    public PathCreator pathPrefab;
+    public PathCreator pathPrefab1, pathPrefab2, pathPrefab3;
     public DrawPath drawer;
 
     LineRenderer lr;
@@ -22,7 +22,19 @@ public class WeldingMiniGame : MonoBehaviour
 
     public void SpawnPath ()
     {
-        var path = Instantiate(pathPrefab, transform.position, transform.rotation);
+        PathCreator patCre;
+        var i = Random.Range(1, 4);
+        if (i == 1)
+        {
+            patCre = pathPrefab1;
+        } else if (i == 2)
+        {
+            patCre = pathPrefab2;
+        } else
+        {
+            patCre = pathPrefab3;
+        }
+        var path = Instantiate(patCre, transform.position, transform.rotation);
         path.transform.SetParent(transform);
         drawer.originalPath = path;
         DrawPath(path);

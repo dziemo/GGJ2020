@@ -7,21 +7,20 @@ public class Interactable : MonoBehaviour
     public MiniGame miniGameType;
 
     Outline outline;
-
+    private Color startcolor;
+    Renderer rend;
     private void Awake()
     {
-        outline = GetComponent<Outline>();
-        outline.OutlineWidth = 0;
+        rend = GetComponent<Renderer>();
     }
-
-    public void OnMouseOver()
+    void OnMouseEnter()
     {
-        outline.OutlineWidth = 10.0f;
+        startcolor = rend.material.color;
+        rend.material.color = Color.yellow;
     }
-
-    private void OnMouseExit()
+    void OnMouseExit()
     {
-        outline.OutlineWidth = 0.0f;
+        rend.material.color = startcolor;
     }
 }
 

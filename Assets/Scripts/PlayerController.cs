@@ -1,9 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
+    public GameObject repairIcon;
     public float speed = 5.0f;
     public float mouseSensitivity = 100.0f;
     public bool canMove = false;
@@ -47,9 +49,12 @@ public class PlayerController : MonoBehaviour
             if (Physics.Raycast(ray, out hit))
             {
                 var go = hit.collider.gameObject;
+                if (go.CompareTag("Interactable") && !go.GetComponent<JobController>().isFullfiled)
+                    repairIcon.SetActive(true);
+                else if (repairIcon.activeSelf)
+                    repairIcon.SetActive(false);
                 if (Input.GetMouseButtonDown(0) && go.CompareTag("Interactable"))
                 {
-
                     MinigamesController.instance.StartMinigame(go.GetComponent<Interactable>().miniGameType, go.GetComponent<JobController>());
                 }
             }

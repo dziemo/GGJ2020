@@ -9,11 +9,29 @@ public class MinigamesController : MonoBehaviour
     public CameraController camMov;
     public GameObject weldMinigame, hammerMinigame;
     public GameObject minigameTint;
+    public GameObject startPanel;
+
+    bool gameStarted = false;
 
     private void Awake()
     {
+        startPanel.SetActive(true);
+        BlockPlayer();
         instance = this;
         TurnOffMinigames();
+    }
+
+    private void Update()
+    {
+        if (!gameStarted)
+        {
+            if (Input.anyKeyDown)
+            {
+                gameStarted = true;
+                ReleasePlayer();
+                startPanel.SetActive(false);
+            }
+        }
     }
 
     public void StartMinigame (MiniGame minigame, JobController controller)
@@ -44,7 +62,7 @@ public class MinigamesController : MonoBehaviour
         ReleasePlayer();
     }
 
-    private void BlockPlayer ()
+    public void BlockPlayer ()
     {
         playerMov.gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
         playerMov.gameObject.GetComponent<Rigidbody>().Sleep();

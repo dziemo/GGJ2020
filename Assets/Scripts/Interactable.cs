@@ -5,22 +5,39 @@ using UnityEngine;
 public class Interactable : MonoBehaviour
 {
     public MiniGame miniGameType;
-
-    Outline outline;
-    private Color startcolor;
+    private List<Color> startColors = new List<Color>();
     Renderer rend;
+    JobController jc;
+
     private void Awake()
     {
+        jc = GetComponent<JobController>();
         rend = GetComponent<Renderer>();
+        foreach(var m in rend.materials)
+        {
+            startColors.Add(m.color);
+        }
     }
+
     void OnMouseEnter()
     {
-        startcolor = rend.material.color;
-        rend.material.color = Color.yellow;
+        if (jc.isFullfiled)
+        {
+        }
+        else
+        {
+            foreach (var m in rend.materials)
+            {
+                m.color = Color.yellow;
+            }
+        }
     }
     void OnMouseExit()
     {
-        rend.material.color = startcolor;
+        for (int i = 0; i < rend.materials.Length; i++)
+        {
+            rend.materials[i].color = startColors[i];
+        }
     }
 }
 

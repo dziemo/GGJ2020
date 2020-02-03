@@ -22,7 +22,6 @@ public class PathComparator : MonoBehaviour
     //calc score
     float tolerance = 0.075f;
     int goodNodes = 0;
-    int score = 0;
     public Color goodNode, badNode;
 
     private void Awake()

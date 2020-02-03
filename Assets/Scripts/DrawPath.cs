@@ -49,6 +49,10 @@ public class DrawPath : MonoBehaviour
             canDraw = false;
             particlesParent.SetActive(false);
             drawing = false;
+            if (vertexesList.Count == 1)
+            {
+                vertexesList.Add(mousePos + new Vector2(0.00001f, 0.00001f));
+            }
             RenderPath();
         }
 
@@ -74,7 +78,7 @@ public class DrawPath : MonoBehaviour
             lr.SetPosition(lr.positionCount - 1, mousePos);
             Debug.Log("Added!");
         }
-        else if (Vector2.Distance(mousePos, vertexesList[vertexesList.Count - 1]) > 0.2f)
+        else if (Vector2.Distance(mousePos, vertexesList[vertexesList.Count - 1]) > 0.1f)
         {
             energyLeft -= Vector2.Distance(mousePos, vertexesList[vertexesList.Count - 1]);
             vertexesList.Add(mousePos);
